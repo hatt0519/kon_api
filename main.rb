@@ -82,12 +82,12 @@ end
 
 get '/available_room.json' do
   content_type :json, :charset => 'utf-8'
-  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band = ?",'')
+  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'')
   practices.to_json(:root => false)
 end
 
 get '/available_room.xml' do
   content_type :xml, :charset => 'utf-8'
-  practices = Practices.select("date,period,room").where("date = ?",t_day).where("name IS NULL")
+  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?", '')
   practices.to_xml(:root => false)
 end
