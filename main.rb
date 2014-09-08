@@ -12,6 +12,9 @@ set :environment, :production
 ActiveRecord::Base.configurations = YAML.load_file('database.yml')
 ActiveRecord::Base.establish_connection('development')
 
+#active_recordのタイムゾーンを日本時間に設定
+Time.zone_default =  Time.find_zone! 'Tokyo'
+
 configure do
   # logging is enabled by default in classic style applications,
   # so `enable :logging` is not needed
