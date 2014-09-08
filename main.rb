@@ -12,6 +12,9 @@ set :environment, :production
 ActiveRecord::Base.configurations = YAML.load_file('database.yml')
 ActiveRecord::Base.establish_connection('development')
 
+ActiveRecord::Base.logger = Logger.new("./log/production.log")
+ActiveRecord::Base.logger.level = 0
+
 #active_recordのタイムゾーンを日本時間に設定
 Time.zone_default =  Time.find_zone! 'Tokyo'
 
