@@ -82,7 +82,7 @@ end
 
 get '/available_room.json' do
   content_type :json, :charset => 'utf-8'
-  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'')
+  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band = ?",'')
   practices.to_json(:root => false)
 end
 
