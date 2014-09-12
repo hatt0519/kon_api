@@ -33,16 +33,16 @@ class Practices < ActiveRecord::Base
 end
 
 day = Time.now
-  today = day.strftime("%m月%d日")
+today = day.strftime("%m月%d日")
 
-  week = ["(日)","(月)","(火)","(水)","(木)","(金)","(土)"]
+ week = ["(日)","(月)","(火)","(水)","(木)","(金)","(土)"]
 
-  for i in 0..6 do
-    t_week = week[i] if day.strftime("%w") == i.to_s
-  end 
+for i in 0..6 do
+  t_week = week[i] if day.strftime("%w") == i.to_s
+end 
 
-  t_day = today+t_week.gsub("(","（").gsub(")","）")
-  #半角括弧を全角括弧に変換
+t_day = today+t_week.gsub("(","（").gsub(")","）")
+#半角括弧を全角括弧に変換
 
 get '/Monday.json' do
   content_type :json, :charset => 'utf-8'
@@ -88,12 +88,12 @@ end
 
 get '/available_room.json' do
   content_type :json, :charset => 'utf-8'
-  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'')
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'')
   practices.to_json(:root => false)
 end
 
 get '/available_room.xml' do
   content_type :xml, :charset => 'utf-8'
-  practices = Practices.select("date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?", '')
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?", '')
   practices.to_xml(:root => false)
 end
