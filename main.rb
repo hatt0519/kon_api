@@ -1,6 +1,6 @@
 # coding:utf-8
 require 'sinatra'
-require 'sinatra/reloader'
+require 'sinatra/reloader' 
 require 'active_record'
 require 'mysql2'
 require 'sinatra'

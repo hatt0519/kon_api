@@ -1,0 +1,7 @@
+development:
+  adapter: mysql2
+  database: kon
+  host: localhost
+  username: kon
+  password: kendaikon
+  encoding: utf8
