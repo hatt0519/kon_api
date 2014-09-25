@@ -108,6 +108,22 @@ get '/holiday_checker.xml' do
   practices.to_xml(:root => false)
 end
 
+get '/ban_checker.json' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.find_by(:date => t_day)
+  practices.to_json(:root => false)
+end
+
+get '/ban_checker.xml' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :xml, :charset => 'utf-8'
+  practices = Practices.find_by(:date => t_day)
+  practices.to_xml(:root => false)
+end
+
 get '/available_room.json' do
   time = Time_Format.new()
   t_day = time.today_time
