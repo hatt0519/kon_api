@@ -92,6 +92,22 @@ get '/Sunday.json' do
   practices.to_json(:root => false)
 end
 
+get '/holiday_checker.json' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("date,period").where("date = ?",t_day).where("period = ?","0")
+  practices.to_json(:root => false)
+end
+
+get '/holiday_checker.xml' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :xml, :charset => 'utf-8'
+  practices = Practices.select("date,period").where("date = ?",t_day).where("period = ?","0")
+  practices.to_xml(:root => false)
+end
+
 get '/available_room.json' do
   time = Time_Format.new()
   t_day = time.today_time
