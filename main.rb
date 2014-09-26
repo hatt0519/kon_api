@@ -4,7 +4,7 @@ require 'sinatra/reloader'
 require 'active_record'
 require 'mysql2'
 require 'sinatra'
-
+require './Time_Format.class.rb'
 #外部との通信を許可
 set :environment, :production
 
@@ -26,28 +26,7 @@ configure do
   use Rack::CommonLogger, file
 end
 
-
-
-
 class Practices < ActiveRecord::Base
-end
-
-class Time_Format
-
-  def today_time
-    require 'date'
-    day = DateTime.now
-    today = day.strftime("%m月%d日")
-
-     week = ["(日)","(月)","(火)","(水)","(木)","(金)","(土)"]
-
-    for i in 0..6 do
-      t_week = week[i] if day.strftime("%w") == i.to_s
-    end 
-
-    t_day = today+t_week.gsub("(","（").gsub(")","）")
-    #半角括弧を全角括弧に変換 
-  end
 end
 
 get '/Monday.json' do
@@ -124,6 +103,14 @@ get '/ban_checker.xml' do
   practices.to_xml(:root => false)
 end
 
+get '/next_day_schedule.json' do
+  time = Time_Format.new()
+  n_day = time.nextday_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",n_day).where("band IS NULL or band = ?",'')
+  practices.to_json(:root => false)
+end
+
 get '/available_room.json' do
   time = Time_Format.new()
   t_day = time.today_time
@@ -132,6 +119,37 @@ get '/available_room.json' do
   practices.to_json(:root => false)
 end
 
+get '/available_room_12_10.json' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 2")
+  practices.to_json(:root => false)
+end
+
+get '/available_room_14_30.json' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 3")
+  practices.to_json(:root => false)
+end
+
+get '/available_room_16_10.json' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 4")
+  practices.to_json(:root => false)
+end
+
+get '/available_room_17_50.json' do
+  time = Time_Format.new()
+  t_day = time.today_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 5")
+  practices.to_json(:root => false)
+end
 get '/available_room.xml' do
   time = Time_Format.new()
   t_day = time.today_time
