@@ -19,7 +19,7 @@ class Time_Format
       require 'date'
       day = DateTime.now
       next_day = day + 1
-      next_day_format = day.strftime("%m月%d日")
+      next_day_format = next_day.strftime("%m月%d日")
 
       week = ["(日)","(月)","(火)","(水)","(木)","(金)","(土)"]
 
