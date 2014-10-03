@@ -95,6 +95,14 @@ get '/ban_checker.json' do
   practices.to_json(:root => false)
 end
 
+get '/ban_checker_next_day.json' do
+  time = Time_Format.new()
+  n_day = time.nextday_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.find_by(:date => n_day)
+  practices.to_json(:root => false)
+end
+
 get '/ban_checker.xml' do
   time = Time_Format.new()
   t_day = time.today_time
@@ -107,7 +115,7 @@ get '/next_day_schedule.json' do
   time = Time_Format.new()
   n_day = time.nextday_time
   content_type :json, :charset => 'utf-8'
-  practices = Practices.select("id,week_id,date,period,room").where("date = ?",n_day).where("band IS NULL or band = ?",'')
+  practices = Practices.select("id,week_id,date,period,room,ban_flg").where("date = ?",n_day).where("band IS NULL or band = ?",'')
   practices.to_json(:root => false)
 end
 
