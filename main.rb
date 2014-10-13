@@ -79,6 +79,15 @@ get '/holiday_checker.json' do
   practices.to_json(:root => false)
 end
 
+get '/holiday_checker_nextday.json' do
+  time = Time_Format.new()
+  n_day = time.nextday_time
+  content_type :json, :charset => 'utf-8'
+  practices = Practices.select("date,period").where("date = ?",n_day).where("period = ?","0")
+  practices.to_json(:root => false)
+end
+
+
 get '/holiday_checker.xml' do
   time = Time_Format.new()
   t_day = time.today_time
