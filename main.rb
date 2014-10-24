@@ -3,7 +3,6 @@ require 'sinatra'
 require 'sinatra/reloader' 
 require 'active_record'
 require 'mysql2'
-require 'sinatra'
 require './Time_Format.class.rb'
 #外部との通信を許可
 set :environment, :production
