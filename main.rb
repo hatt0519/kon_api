@@ -28,6 +28,10 @@ end
 class Practices < ActiveRecord::Base
 end
 
+after do
+  ActiveRecord::Base.connection.close
+end
+
 get '/Monday.json' do
   content_type :json, :charset => 'utf-8'
   practices = Practices.all.where("date like '%（月）%'")
