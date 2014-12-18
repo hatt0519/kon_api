@@ -28,51 +28,14 @@ end
 class Practices < ActiveRecord::Base
 end
 
+class Sisters < ActiveRecord::Base
+  establish_connection(:database2)
+end
+
 after do
   ActiveRecord::Base.connection.close
 end
 
-get '/Monday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（月）%'")
-  practices.to_json(:root => false)
-end
-
-get '/Tuesday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（火）%'")
-  practices.to_json(:root => false)
-end
-
-get '/Wednesday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（水）%'")
-  practices.to_json(:root => false)
-end
-
-get '/Thirsday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（木）%'")
-  practices.to_json(:root => false)
-end
-
-get '/Friday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（金）%'")
-  practices.to_json(:root => false)
-end
-
-get '/Saturday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（土）%'")
-  practices.to_json(:root => false)
-end
-
-get '/Sunday.json' do
-  content_type :json, :charset => 'utf-8'
-  practices = Practices.all.where("date like '%（日）%'")
-  practices.to_json(:root => false)
-end
 
 get '/holiday_checker.json' do
   time = Time_Format.new()
@@ -170,10 +133,17 @@ get '/available_room_17_50.json' do
   practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 5")
   practices.to_json(:root => false)
 end
+
 get '/available_room.xml' do
   time = Time_Format.new()
   t_day = time.today_time
   content_type :xml, :charset => 'utf-8'
   practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?", '')
   practices.to_xml(:root => false)
+end
+
+get '/shift_checker.json' do
+  content_type :json, :charset => 'utf-8'
+  sister = Sisters.select("id").where("shift_flg = 1")
+  sister.to_json(:root => false)
 end
