@@ -201,5 +201,5 @@ get '/shift_checker.json' do
     sister.to_json(:root => false)
   end
     #ActiveRecord::Base.connection.close
-  Sisters.connection.close
+  #Sisters.connection.close
 end
