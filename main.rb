@@ -150,7 +150,11 @@ get '/available_room.xml' do
 end
 
 get '/shift_checker.json' do
-  content_type :json, :charset => 'utf-8'
-  sister = Sisters.select("id").where("shift_flg = 1")
-  sister.to_json(:root => false)
+  ActiveRecord::Base.connection_pool.with_connection do
+        begin
+          content_type :json, :charset => 'utf-8'
+          sister = Sisters.select("id").where("shift_flg = 1")
+          sister.to_json(:root => false)
+        end
+  end
 end
