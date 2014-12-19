@@ -22,7 +22,10 @@ configure do
   # so `enable :logging` is not needed
   file = File.new("#{settings.root}/log/#{settings.environment}.log", 'a+')
   file.sync = true
-  use Rack::CommonLogger, file
+  before{
+    env["rack.errors"] = file
+  }
+  #use Rack::CommonLogger, file
 end
 
 class Practices < ActiveRecord::Base
