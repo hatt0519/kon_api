@@ -96,7 +96,6 @@ get '/ban_checker.json' do
     practices = Practices.find_by(:date => t_day)
     practices.to_json(:root => false)
   end
-  Practices.connection.close
 end
 
 get '/ban_checker_next_day.json' do
@@ -109,7 +108,6 @@ get '/ban_checker_next_day.json' do
     practices = Practices.find_by(:date => n_day)
     practices.to_json(:root => false)
   end
-  Practices.connection.close
 end
 
 get '/ban_checker.xml' do
@@ -135,13 +133,13 @@ end
 get '/available_room.json' do
   class Practices < PracticesBase
   end
-  #Practices.connection_pool.with_connection do
+  Practices.connection_pool.with_connection do
     time = Time_Format.new()
     t_day = time.today_time
     content_type :json, :charset => 'utf-8'
     practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'')
     practices.to_json(:root => false)
-  #end
+  end
 end
 
 get '/available_room_12_10.json' do
