@@ -45,23 +45,23 @@ end
 
 
 get '/holiday_checker.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("date,period").where("date = ?",t_day).where("period = ?","0")
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/holiday_checker_nextday.json' do
-  time = Time_Format.new()
-  n_day = time.nextday_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    n_day = time.nextday_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("date,period").where("date = ?",n_day).where("period = ?","0")
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 
@@ -74,23 +74,23 @@ get '/holiday_checker.xml' do
 end
 
 get '/ban_checker.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.find_by(:date => t_day)
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/ban_checker_next_day.json' do
-  time = Time_Format.new()
-  n_day = time.nextday_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    n_day = time.nextday_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.find_by(:date => n_day)
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/ban_checker.xml' do
@@ -102,63 +102,63 @@ get '/ban_checker.xml' do
 end
 
 get '/next_day_schedule.json' do
-  time = Time_Format.new()
-  n_day = time.nextday_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    n_day = time.nextday_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("id,week_id,date,period,room,ban_flg").where("date = ?",n_day).where("band IS NULL or band = ?",'')
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/available_room.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'')
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/available_room_12_10.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
     practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 2")
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/available_room_14_30.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 3")
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/available_room_16_10.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 4")
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/available_room_17_50.json' do
-  time = Time_Format.new()
-  t_day = time.today_time
-  content_type :json, :charset => 'utf-8'
   ActiveRecord::Base.connection_pool.with_connection do
+    time = Time_Format.new()
+    t_day = time.today_time
+    content_type :json, :charset => 'utf-8'
     practices = Practices.select("id,week_id,date,period,room").where("date = ?",t_day).where("band IS NULL or band = ?",'').where("period > 5")
+    practices.to_json(:root => false)
   end
-  practices.to_json(:root => false)
 end
 
 get '/available_room.xml' do
@@ -170,9 +170,9 @@ get '/available_room.xml' do
 end
 
 get '/shift_checker.json' do
+  ActiveRecord::Base.connection_pool.with_connection do
     content_type :json, :charset => 'utf-8'
-    ActiveRecord::Base.connection_pool.with_connection do
-      sister = Sisters.select("id").where("shift_flg = 1")
-    end
+    sister = Sisters.select("id").where("shift_flg = 1")
     sister.to_json(:root => false)
+  end
 end
