@@ -28,8 +28,12 @@ end
 class Practices < ActiveRecord::Base
 end
 
-class Sisters < ActiveRecord::Base
-  establish_connection(:database2)
+class SistersBase < ActiveRecord::Base
+  self.abstract_class = true
+  establish_connection :database2
+end
+
+class Sisters < SistersBase
 end
 
 after do
