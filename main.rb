@@ -61,7 +61,6 @@ get '/holiday_checker.json' do
     practices = Practices.select("date,period").where("date = ?",t_day).where("period = ?","0")
     practices.to_json(:root => false)
   end
-  Practices.connection.close
 end
 
 get '/holiday_checker_nextday.json' do
